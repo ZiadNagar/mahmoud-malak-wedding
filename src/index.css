@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+
+    /* Wedding Design Tokens */
+    --color-bg-primary: #fafaf8;
+    --color-bg-secondary: #fdfdfb;
+    --color-bg-card: #ffffff;
+    --color-frame-gold: #db7a85;
+    --color-text-primary: #2c2c2c;
+    --color-text-secondary: #5a5a5a;
+    --color-text-muted: #8a8a8a;
+    --color-accent-rose: #db7a85;
+    --color-accent-rose-light: #f0c6cc;
+    --color-accent-sage: #7a9e7e;
+    --color-accent-sage-light: #b8d4ba;
+    --color-accent-gold: #db7a85;
+    --color-accent-gold-light: #f0c6cc;
+
+    /* Font families */
+    --font-display: "Cormorant Garamond", serif;
+    --font-arabic: "Amiri", serif;
+    --font-body: "Inter", sans-serif;
+  }
+
+  * {
+    @apply border-border;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    overscroll-behavior-y: none;
+    overflow-x: hidden;
+  }
+}
+
+/* Scroll Reveal System */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 {
+  transition-delay: 0.12s;
+}
+.reveal-delay-2 {
+  transition-delay: 0.24s;
+}
+.reveal-delay-3 {
+  transition-delay: 0.36s;
+}
+.reveal-delay-4 {
+  transition-delay: 0.48s;
+}
+.reveal-delay-5 {
+  transition-delay: 0.6s;
+}
+
+/* Hero Entrance Animations */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceChevron {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.hero-bismillah {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.hero-verse {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+}
+
+.hero-name-1 {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;
+}
+
+.hero-ampersand {
+  animation: heroScaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+}
+
+.hero-name-2 {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+}
+
+.hero-quote {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both;
+}
+
+.hero-date {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.9s both;
+}
+
+.hero-location {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.1s both;
+}
+
+.hero-invite {
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.3s both;
+}
+
+.hero-divider {
+  animation: heroScaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both;
+}
+
+.hero-chevron {
+  animation: bounceChevron 2s ease-in-out infinite;
+  animation-delay: 2.8s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes frameBloom {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.frame-bloom {
+  animation: frameBloom 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Gallery image hover */
+.gallery-img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-item:hover .gallery-img {
+  transform: scale(1.05);
+}
+
+/* Button hover */
+.btn-gold {
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  transform: scale(1.02);
+  background-color: var(--color-accent-rose);
+  color: white;
+}
+
+.btn-gold-solid {
+  transition: all 0.3s ease;
+}
+
+.btn-gold-solid:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+/* Organic background textures */
+.bg-texture-rose {
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(219, 122, 133, 0.06) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 100%,
+      rgba(122, 158, 126, 0.04) 0%,
+      transparent 50%
+    ),
+    var(--color-bg-primary);
+}
+
+.bg-texture-sage {
+  background:
+    radial-gradient(
+      ellipse at 30% 100%,
+      rgba(122, 158, 126, 0.05) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 70% 0%,
+      rgba(219, 122, 133, 0.04) 0%,
+      transparent 50%
+    ),
+    var(--color-bg-secondary);
+}
