@@ -70,7 +70,7 @@ export default function Hero() {
             direction: "rtl",
           }}
         >
-          صُدْفَةً وَأَصْبَحَتْ قَدَرًا
+          صُدْفَةً أَصْبَحَتْ قَدَرًا
         </p>
 
         {/* Couple Names */}
