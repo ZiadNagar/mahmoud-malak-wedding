@@ -5,7 +5,8 @@ export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const isPlayingRef = useRef(false);
+  const shouldPlayRef = useRef(true);
+  const autoplayBlockedRef = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -15,43 +16,57 @@ export default function MusicPlayer() {
     audio.loop = true;
     audio.muted = true;
 
-    // Autoplay muted (browsers allow this)
-    audio
-      .play()
-      .then(() => {
+    const attemptPlayback = async () => {
+      try {
+        await audio.play();
+        autoplayBlockedRef.current = false;
         setIsPlaying(true);
-        isPlayingRef.current = true;
-      })
-      .catch(() => {});
+        return true;
+      } catch {
+        autoplayBlockedRef.current = true;
+        setIsPlaying(false);
+        return false;
+      }
+    };
 
-    // Unmute on first interaction
-    const unmuteAudio = () => {
+    void attemptPlayback();
+
+    // First user activation should unmute and recover playback when autoplay is blocked.
+    const activateAudio = () => {
       if (audio.muted) {
         audio.muted = false;
         setIsMuted(false);
       }
+
+      if (audio.paused || autoplayBlockedRef.current) {
+        shouldPlayRef.current = true;
+        void attemptPlayback();
+      }
     };
 
-    document.addEventListener("click", unmuteAudio, { once: true });
-    document.addEventListener("touchstart", unmuteAudio, { once: true });
-    document.addEventListener("scroll", unmuteAudio, { once: true });
-    document.addEventListener("keydown", unmuteAudio, { once: true });
+    document.addEventListener("pointerdown", activateAudio, { once: true });
+    document.addEventListener("click", activateAudio, { once: true });
+    document.addEventListener("touchstart", activateAudio, { once: true });
+    document.addEventListener("scroll", activateAudio, { once: true });
+    document.addEventListener("keydown", activateAudio, { once: true });
 
     // Tab visibility handling
     const handleVisibility = () => {
       if (document.hidden) {
         audio.pause();
-      } else if (isPlayingRef.current) {
-        audio.play().catch(() => {});
+        setIsPlaying(false);
+      } else if (shouldPlayRef.current) {
+        void attemptPlayback();
       }
     };
     document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      document.removeEventListener("click", unmuteAudio);
-      document.removeEventListener("touchstart", unmuteAudio);
-      document.removeEventListener("scroll", unmuteAudio);
-      document.removeEventListener("keydown", unmuteAudio);
+      document.removeEventListener("pointerdown", activateAudio);
+      document.removeEventListener("click", activateAudio);
+      document.removeEventListener("touchstart", activateAudio);
+      document.removeEventListener("scroll", activateAudio);
+      document.removeEventListener("keydown", activateAudio);
       document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
@@ -59,24 +74,32 @@ export default function MusicPlayer() {
   const toggle = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (isPlaying) {
+    if (isPlaying && !audio.paused) {
       audio.pause();
       setIsPlaying(false);
-      isPlayingRef.current = false;
+      shouldPlayRef.current = false;
     } else {
+      if (audio.muted) {
+        audio.muted = false;
+        setIsMuted(false);
+      }
+
+      shouldPlayRef.current = true;
       audio
         .play()
         .then(() => {
           setIsPlaying(true);
-          isPlayingRef.current = true;
         })
-        .catch(() => {});
+        .catch(() => {
+          setIsPlaying(false);
+          autoplayBlockedRef.current = true;
+        });
     }
   };
 
   return (
     <>
-      <audio ref={audioRef} src="/audio/esseilye-eleila.mp3" preload="auto" />
+      <audio ref={audioRef} src="/audio/esseilye-eleila.mp3" preload="auto" autoPlay muted playsInline />
       <button
         onClick={toggle}
         aria-label={isPlaying ? "Pause music" : "Play music"}
