@@ -198,6 +198,124 @@
   animation: frameBloom 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Splash Gate Entry */
+@keyframes splashFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes stampPulse {
+  0%,
+  100% {
+    transform: rotate(-7deg) scale(1);
+  }
+  50% {
+    transform: rotate(-7deg) scale(1.03);
+  }
+}
+
+.splash-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.splash-gate.is-exiting {
+  animation: splashFadeOut 0.55s ease forwards;
+  pointer-events: none;
+}
+
+.splash-gate-card {
+  width: min(92vw, 500px);
+  min-height: min(82svh, 680px);
+
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.splash-bismillah {
+  font-family: var(--font-arabic);
+  font-size: clamp(20px, 5vw, 26px);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+.splash-invite-line {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 32px);
+  color: var(--color-accent-rose);
+  font-style: italic;
+  letter-spacing: 0.06em;
+}
+
+.splash-name {
+  font-family: var(--font-arabic);
+  font-size: clamp(44px, 11vw, 64px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-text-primary);
+  margin: 4px 0;
+}
+
+.splash-subtitle {
+  max-width: 320px;
+  font-family: var(--font-display);
+  font-size: clamp(16px, 4vw, 18px);
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
+}
+
+.splash-open-stamp {
+  border: 2px solid var(--color-accent-rose);
+  background: rgba(219, 122, 133, 0.06);
+  color: var(--color-accent-rose);
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transform: rotate(-7deg);
+  box-shadow: 0 10px 24px rgba(219, 122, 133, 0.2);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+  animation: stampPulse 2.6s ease-in-out infinite;
+}
+
+.splash-open-stamp:hover {
+  transform: rotate(-7deg) scale(1.05);
+  background: rgba(219, 122, 133, 0.14);
+}
+
+.splash-open-stamp:active {
+  transform: rotate(-7deg) scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-gate.is-exiting,
+  .splash-open-stamp {
+    animation: none;
+  }
+}
+
 /* Gallery image hover */
 .gallery-img {
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);

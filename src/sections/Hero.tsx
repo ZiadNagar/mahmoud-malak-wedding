@@ -15,7 +15,7 @@ export default function Hero() {
         padding: "80px 24px 80px",
       }}
     >
-      {/* Content Container */}
+      {/* Content Container - 480px max-width */}
       <div
         style={{
           maxWidth: "480px",
